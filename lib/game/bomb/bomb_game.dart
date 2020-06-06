@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:bomberman/core/base/model/coordinate.dart';
 import 'package:bomberman/game/component/bomberman/bomberman.dart';
+import 'package:bomberman/game/component/box/rock_box.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game/game.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +18,13 @@ class BombGame extends Game {
     init();
   }
 
-  void name(args) {}
-
+  RockBox box;
   Future<void> init() async {
     bombermans = [];
     final size = await Flame.util.initialDimensions();
     resize(size);
+    box = RockBox(this);
+
     spawnBomberman();
   }
 
@@ -33,9 +35,11 @@ class BombGame extends Game {
     Paint backgroundPaint = Paint();
     backgroundPaint.color = Colors.green[900];
     canvas.drawRect(backgroundRect, backgroundPaint);
+    box.drawAllScreenBox(canvas);
     bombermans.forEach((element) {
       element.render(canvas);
     });
+    box.render(canvas);
   }
 
   @override
