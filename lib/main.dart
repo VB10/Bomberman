@@ -1,6 +1,7 @@
 import 'package:bomberman/core/asset/image/image_load_manager.dart';
 import 'package:bomberman/game/bomb/bomb_game.dart';
 import 'package:flame/util.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

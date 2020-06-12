@@ -6,9 +6,10 @@ import 'package:bomberman/game/component/bomberman/bomberman.dart';
 import 'package:bomberman/game/component/box/rock_box.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game/game.dart';
+import 'package:flame/gestures.dart';
 import 'package:flutter/material.dart';
 
-class BombGame extends Game {
+class BombGame extends Game with TapDetector {
   Size screenSize;
   List<Bomberman> bombermans;
 
@@ -22,7 +23,7 @@ class BombGame extends Game {
   Future<void> init() async {
     bombermans = [];
     final size = await Flame.util.initialDimensions();
-    resize(size);
+    screenSize = size;
     box = RockBox(this);
 
     spawnBomberman();
@@ -39,7 +40,6 @@ class BombGame extends Game {
     bombermans.forEach((element) {
       element.render(canvas);
     });
-    box.render(canvas);
   }
 
   @override
@@ -49,10 +49,6 @@ class BombGame extends Game {
     });
   }
 
-  void resize(Size size) {
-    screenSize = size;
-  }
-
   void spawnBomberman() {
     bombermans.add(
       Bomberman(
@@ -60,6 +56,20 @@ class BombGame extends Game {
         Coordinate(randomWidthNumber, randomHeightNumber),
       ),
     );
+  }
+
+  @override
+  void onTapDown(TapDownDetails details) {
+    bombermans.forEach((element) {
+      element.onTapDown();
+    });
+  }
+
+  @override
+  void onTapUp(TapUpDetails details) {
+    bombermans.forEach((element) {
+      element.onTapUp();
+    });
   }
 
   double get randomWidthNumber =>

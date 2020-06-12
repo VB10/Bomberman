@@ -9,13 +9,32 @@ class Bomberman extends BaseComponent {
   final BombGame game;
   Rect bombermanRect;
   Paint bombermanPaint;
+  double xPosition = 0;
 
   Bomberman(this.game, Coordinate coordinate) {
+    this.coordinate = coordinate;
     bombermanRect = Rect.fromLTWH(coordinate.x, coordinate.y,
         game.screenSize.width * 0.1, game.screenSize.width * 0.1);
+
+    xPosition = coordinate.x;
     bombermanPaint = Paint();
     bombermanPaint.color = Colors.red;
   }
+
+  double get boxSize => game.screenSize.width * 0.12;
+
+  void onTapDown() {}
+
+  void onTapUp() {
+    if (game.screenSize.width * 0.8 > xPosition) {
+      if (game.screenSize.width * 0.8 > xPosition + 10) {
+        xPosition += 10;
+      } else {
+        xPosition += game.screenSize.width * 0.8 - xPosition;
+      }
+    }
+  }
+
   @override
   void render(Canvas canvas) {
     canvas.drawRect(bombermanRect, bombermanPaint);
@@ -23,6 +42,7 @@ class Bomberman extends BaseComponent {
 
   @override
   void update(double value) {
-    // TODO: implement update
+    bombermanRect = Rect.fromLTWH(xPosition, coordinate.y,
+        game.screenSize.width * 0.1, game.screenSize.width * 0.1);
   }
 }
