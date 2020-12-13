@@ -1,13 +1,13 @@
 import 'dart:ui';
 
 import 'package:bomberman/core/asset/image/image_load_manager.dart';
+import 'package:flame/components/component.dart';
 import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/base/base_component.dart';
 import '../../bomb/bomb_game.dart';
 
-class RockBox extends BaseComponent {
+class RockBox extends Component {
   final BombGame game;
   Rect bombermanRect;
   Paint bombermanPaint;
@@ -33,8 +33,7 @@ class RockBox extends BaseComponent {
 
     for (var i = 0; i < headerColumnLength; i++) {
       final rect = Rect.fromLTWH(0, boxSize * i, boxSize, boxSize);
-      final rect2 = Rect.fromLTWH(
-          game.screenSize.width - boxSize, boxSize * i, boxSize, boxSize);
+      final rect2 = Rect.fromLTWH(game.screenSize.width - boxSize, boxSize * i, boxSize, boxSize);
       backgroundSprite.renderRect(canvas, rect);
       backgroundSprite.renderRect(canvas, rect2);
     }
@@ -42,8 +41,7 @@ class RockBox extends BaseComponent {
     for (var i = 0; i < headerRowLength; i++) {
       final rect = Rect.fromLTWH(boxSize * i, 0, boxSize, boxSize);
       backgroundSprite.renderRect(canvas, rect);
-      final rect2 = Rect.fromLTWH(
-          boxSize * i, game.screenSize.height - boxSize, boxSize, boxSize);
+      final rect2 = Rect.fromLTWH(boxSize * i, game.screenSize.height - boxSize, boxSize, boxSize);
       backgroundSprite.renderRect(canvas, rect2);
     }
   }
