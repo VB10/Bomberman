@@ -1,12 +1,14 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:flame/components/component.dart';
 import 'package:flame/components/joystick/joystick_component.dart';
 import 'package:flame/components/joystick/joystick_events.dart';
 import 'package:flame/palette.dart';
 
-class Player extends Component implements JoystickListener {
+import '../../../core/base/base_component.dart';
+import '../../../product/model/box_model.dart';
+
+class Player extends BaseComponent implements JoystickListener {
   final _whitePaint = BasicPalette.white.paint;
   final _bluePaint = Paint()..color = const Color(0xFF0000FF);
   final _greenPaint = Paint()..color = const Color(0xFF00FF00);
@@ -15,11 +17,15 @@ class Player extends Component implements JoystickListener {
   double radAngle = 0;
   bool _move = false;
   Paint _paint;
+  BoxModelUtil _boxModelUtil;
+
+  Size screenSize;
 
   Rect _rect;
 
-  Player() {
+  Player(this.screenSize) {
     _paint = _whitePaint;
+    _boxModelUtil = BoxModelUtil(screenSize);
   }
 
   @override
@@ -36,19 +42,12 @@ class Player extends Component implements JoystickListener {
 
   @override
   void update(double dt) {
-    if (_move) {
-      moveFromAngle(dt);
-    }
+    if (_move) moveFromAngle(dt);
   }
 
   @override
   void resize(Size size) {
-    _rect = Rect.fromLTWH(
-      (size.width / 2) - 25,
-      (size.height / 2) - 25,
-      50,
-      50,
-    );
+    _rect = Rect.fromLTWH(_boxModelUtil.boxSize, this.screenSize.height - _boxModelUtil.boxSize * 2, _boxModelUtil.boxSize, _boxModelUtil.boxSize);
     super.resize(size);
   }
 
@@ -76,16 +75,13 @@ class Player extends Component implements JoystickListener {
   void moveFromAngle(double dtUpdate) {
     final double nextX = (currentSpeed * dtUpdate) * cos(radAngle);
     final double nextY = (currentSpeed * dtUpdate) * sin(radAngle);
-    final Offset nextPoint = Offset(nextX, nextY);
 
-    final Offset diffBase = Offset(
-          _rect.center.dx + nextPoint.dx,
-          _rect.center.dy + nextPoint.dy,
-        ) -
-        _rect.center;
+    final Offset nextPoint = Offset(nextX, nextY);
+    final Offset diffBase = Offset(_rect.center.dx + nextPoint.dx, _rect.center.dy + nextPoint.dy) - _rect.center;
 
     final Rect newPosition = _rect.shift(diffBase);
-
-    _rect = newPosition;
+    if (newPosition.right < screenSize.width - _boxModelUtil.boxSize && newPosition.left > _boxModelUtil.boxSize) {
+      _rect = newPosition;
+    }
   }
 }
