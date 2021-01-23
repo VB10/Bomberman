@@ -14,7 +14,10 @@ class ImageLoad {
   String wallImage = 'wall-1.png';
   String agileFly = 'agile-fly-1.png';
 
+  final String humanCar = 'car/humanCar.png';
+  final String monsterCar = 'car/monsterCar.png';
+
   Future<void> loadImageAll() async {
-    await Flame.images.loadAll(<String>[wallImage, agileFly]);
+    await Flame.images.loadAll(<String>[wallImage, humanCar, monsterCar]);
   }
 }

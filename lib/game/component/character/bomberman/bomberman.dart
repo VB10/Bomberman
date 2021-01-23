@@ -13,8 +13,7 @@ class Bomberman extends BaseComponent {
 
   Bomberman(this.game, Coordinate coordinate) {
     this.coordinate = coordinate;
-    bombermanRect = Rect.fromLTWH(coordinate.x, coordinate.y,
-        game.screenSize.width * 0.1, game.screenSize.width * 0.1);
+    bombermanRect = Rect.fromLTWH(coordinate.x, coordinate.y, game.screenSize.width * 0.1, game.screenSize.width * 0.1);
 
     xPosition = coordinate.x;
     bombermanPaint = Paint();
@@ -42,7 +41,6 @@ class Bomberman extends BaseComponent {
 
   @override
   void update(double value) {
-    bombermanRect = Rect.fromLTWH(xPosition, coordinate.y,
-        game.screenSize.width * 0.1, game.screenSize.width * 0.1);
+    bombermanRect = Rect.fromLTWH(xPosition, coordinate.y, game.screenSize.width * 0.1, game.screenSize.width * 0.1);
   }
 }

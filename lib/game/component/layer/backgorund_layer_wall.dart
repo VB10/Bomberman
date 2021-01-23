@@ -1,6 +1,6 @@
 import 'package:flame/layer/layer.dart';
 
-import '../bomberman/bomberman.dart';
+import '../character/bomberman/bomberman.dart';
 
 class BackgroundLayer extends PreRenderedLayer {
   final List<Bomberman> wallItems;
