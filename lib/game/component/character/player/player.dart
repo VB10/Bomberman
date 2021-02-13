@@ -88,25 +88,12 @@ class Player extends BaseComponent implements JoystickListener {
     final diffBase = Offset(_rect.center.dx + nextPoint.dx, _rect.center.dy + nextPoint.dy) - _rect.center;
 
     final newPosition = _rect.shift(diffBase);
-    for (var item in boxItems) {
-      // if (item.center.distance) {
-
-      // }
-      // print('${item.left}} - ${newPosition.right}');
-
-      // if ( item.left<newPosition.center.distance<item.right) {
-
-      // }
-      // print('${item.center.dx} - ${newPosition.center.dx}');
-    }
-
-    // _rect = newPosition;
 
     if (!boolBoxRectangle(newPosition)) {
       return;
     }
 
-    if (boxItems.first.top > newPosition.top + _boxModelUtil.boxSize) {
+    if (boxItems.contains((Rect element) => element.top > newPosition.top + _boxModelUtil.boxSize)) {
     } else {
       boxItems.forEach((element) {
         if (!isMoveOnX) {
