@@ -29,14 +29,13 @@ class Player extends BaseComponent implements JoystickListener {
 
   @override
   void render(Canvas canvas) {
-    if (_rect != null) {
-      canvas.save();
-      canvas.translate(_rect.center.dx, _rect.center.dy);
-      canvas.rotate(radAngle == 0.0 ? 0.0 : radAngle + (pi / 2));
-      canvas.translate(-_rect.center.dx, -_rect.center.dy);
-      drawPlayerCar(canvas: canvas, rect: _rect);
-      canvas.restore();
-    }
+    if (_rect == null) return;
+    canvas.save();
+    canvas.translate(_rect.center.dx, _rect.center.dy);
+    canvas.rotate(radAngle == 0.0 ? 0.0 : radAngle + (pi / 2));
+    canvas.translate(-_rect.center.dx, -_rect.center.dy);
+    drawPlayerCar(canvas: canvas, rect: _rect);
+    canvas.restore();
   }
 
   void drawPlayerCar({Canvas canvas, Rect rect}) {
@@ -56,7 +55,13 @@ class Player extends BaseComponent implements JoystickListener {
 
   @override
   void joystickAction(JoystickActionEvent event) {
-    if (event.event == ActionEvent.DOWN) {}
+    if (event.event == ActionEvent.MOVE) {
+      _move = true;
+      radAngle = event.radAngle;
+      currentSpeed = speed * event.intensity;
+    } else {
+      _move = false;
+    }
   }
 
   @override

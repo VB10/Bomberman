@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:flame/components/joystick/joystick_action.dart';
 import 'package:flame/components/joystick/joystick_component.dart';
 import 'package:flame/components/joystick/joystick_directional.dart';
 import 'package:flame/flame.dart';
@@ -28,10 +29,30 @@ class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
 
   double get randomWidthNumber => Random().nextDouble() * (screenSize.width - characterHeight);
   double get randomHeightNumber => Random().nextDouble() * (screenSize.width - characterHeight);
-
   final joystick = JoystickComponent(
-    directional: JoystickDirectional(),
-    actions: [],
+    actions: [
+      JoystickAction(
+        actionId: 1,
+        size: 50,
+        margin: const EdgeInsets.all(50),
+        color: const Color(0xFF0000FF),
+      ),
+      JoystickAction(
+        actionId: 2,
+        size: 50,
+        color: const Color(0xFF00FF00),
+        margin: const EdgeInsets.only(
+          right: 50,
+          bottom: 120,
+        ),
+      ),
+      JoystickAction(
+        actionId: 3,
+        size: 50,
+        margin: const EdgeInsets.only(bottom: 50, right: 120),
+        enableDirection: true,
+      ),
+    ],
   );
 
   BombGame() {
@@ -48,6 +69,7 @@ class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
         monsterSize: Size(characterHeight * 2, characterHeight * 2),
         screenSize: screenSize,
       );
+
       add(randomBox);
       add(backgorundBox);
       add(monsterCar);
