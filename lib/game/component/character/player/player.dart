@@ -21,6 +21,9 @@ class Player extends BaseComponent implements JoystickListener {
   Size screenSize;
 
   Rect _rect;
+  List<Rect> boxItems = [];
+
+  // List<Rect> get _boxUnique => List.;
 
   Player(this.screenSize) {
     _boxModelUtil = BoxModelUtil(screenSize);
@@ -49,7 +52,7 @@ class Player extends BaseComponent implements JoystickListener {
 
   @override
   void resize(Size size) {
-    _rect = Rect.fromLTWH(_boxModelUtil.boxSize, screenSize.height - _boxModelUtil.boxSize * 2, _boxModelUtil.boxSize, _boxModelUtil.boxSize);
+    _rect = Rect.fromLTWH(_boxModelUtil.boxSize, _boxModelUtil.boxSize * 2, _boxModelUtil.boxSize, _boxModelUtil.boxSize);
     super.resize(size);
   }
 
@@ -73,7 +76,11 @@ class Player extends BaseComponent implements JoystickListener {
     }
   }
 
+  bool isMoveOnX = true;
+  bool isMoveBoxY = true;
   void moveFromAngle(double dtUpdate) {
+    isMoveOnX = true;
+    isMoveBoxY = true;
     final nextX = (currentSpeed * dtUpdate) * cos(radAngle);
     final nextY = (currentSpeed * dtUpdate) * sin(radAngle);
 
@@ -81,8 +88,66 @@ class Player extends BaseComponent implements JoystickListener {
     final diffBase = Offset(_rect.center.dx + nextPoint.dx, _rect.center.dy + nextPoint.dy) - _rect.center;
 
     final newPosition = _rect.shift(diffBase);
-    if (newPosition.right < screenSize.width - _boxModelUtil.boxSize && newPosition.left > _boxModelUtil.boxSize) {
-      _rect = newPosition;
+    for (var item in boxItems) {
+      // if (item.center.distance) {
+
+      // }
+      // print('${item.left}} - ${newPosition.right}');
+
+      // if ( item.left<newPosition.center.distance<item.right) {
+
+      // }
+      // print('${item.center.dx} - ${newPosition.center.dx}');
     }
+
+    // _rect = newPosition;
+
+    if (!boolBoxRectangle(newPosition)) {
+      return;
+    }
+
+    if (boxItems.first.top > newPosition.top + _boxModelUtil.boxSize) {
+    } else {
+      boxItems.forEach((element) {
+        if (!isMoveOnX) {
+          return;
+        }
+        if (newPosition.overlaps(element)) {
+          isMoveOnX = false;
+        }
+      });
+
+      if (isMoveOnX) {
+      } else {
+        return;
+      }
+    }
+
+    // boxItems.forEach((element) {
+    //   if (!isMoveOnX && !isMoveBoxY) {
+    //     return;
+    //   }
+    //   if (element.left < newPosition.right && element.right > newPosition.right) {
+    //     isMoveOnX = false;
+    //     isMoveBoxY = false;
+    //     if (element.top > newPosition.top) {
+    //       isMoveBoxY = true;
+    //       isMoveOnX = true;
+    //       // _rect = newPosition;
+    //     }
+    //   }
+    // });
+
+    // if (isMoveBoxY && isMoveOnX) {
+    //   _rect = newPosition;
+    // }
+    _rect = newPosition;
+  }
+
+  bool boolBoxRectangle(Rect newPosition) {
+    return newPosition.right < screenSize.width - _boxModelUtil.boxSize &&
+        newPosition.left > _boxModelUtil.boxSize &&
+        newPosition.top > _boxModelUtil.boxSize &&
+        newPosition.bottom < screenSize.height - _boxModelUtil.boxSize;
   }
 }

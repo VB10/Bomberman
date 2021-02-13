@@ -12,6 +12,7 @@ class RockBoxRandomComponent extends BoxModelUtil with Component {
   List<double> _pointValues = [];
   List<Rect> boxItems = [];
 
+  @override
   final Size screenSize;
 
   RockBoxRandomComponent(this.screenSize) : super(screenSize) {

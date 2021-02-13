@@ -60,7 +60,7 @@ class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
       screenSize = value;
       box = RockBox(this);
       player = Player(screenSize);
-      final bomberMan = Bomberman(this, Coordinate(screenSize.width - characterHeight * 3, characterHeight * 1.5));
+      // final bomberMan = Bomberman(this, Coordinate(screenSize.width - characterHeight * 3, characterHeight * 1.5));
       joystick.addObserver(player);
       final backgorundBox = BackgroundComponent(box);
       final randomBox = RockBoxRandomComponent(screenSize);
@@ -73,6 +73,7 @@ class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
       add(randomBox);
       add(backgorundBox);
       add(monsterCar);
+      player.boxItems = randomBox.boxItems;
       add(player);
       add(joystick);
     });
