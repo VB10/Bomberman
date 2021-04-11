@@ -8,6 +8,7 @@ import 'package:flame/sprite.dart';
 import '../../../../core/asset/image/image_load_manager.dart';
 import '../../../../core/base/base_component.dart';
 import '../../../../product/model/box_model.dart';
+import '../../box/rock_component.dart';
 
 class Player extends BaseComponent implements JoystickListener {
   final double speed = 159;
@@ -16,16 +17,22 @@ class Player extends BaseComponent implements JoystickListener {
   bool _move = false;
   BoxModelUtil _boxModelUtil;
 
+  List<Rock> items = [];
+
+  final Rock component;
+
   Sprite backgroundSprite;
+
+  final void Function(Rect rect) onStartAttack;
 
   Size screenSize;
 
   Rect _rect;
+
+  Rect get rect => _rect;
   List<Rect> boxItems = [];
 
-  // List<Rect> get _boxUnique => List.;
-
-  Player(this.screenSize) {
+  Player(this.screenSize, this.component, this.onStartAttack) {
     _boxModelUtil = BoxModelUtil(screenSize);
     backgroundSprite = Sprite(ImageLoad.instance.humanCar);
   }
@@ -38,6 +45,7 @@ class Player extends BaseComponent implements JoystickListener {
     canvas.rotate(radAngle == 0.0 ? 0.0 : radAngle + (pi / 2));
     canvas.translate(-_rect.center.dx, -_rect.center.dy);
     drawPlayerCar(canvas: canvas, rect: _rect);
+
     canvas.restore();
   }
 
@@ -58,6 +66,23 @@ class Player extends BaseComponent implements JoystickListener {
 
   @override
   void joystickAction(JoystickActionEvent event) {
+    if (event.id == 2 && event.event == ActionEvent.UP) {
+      print('ok');
+      final right = component.rect.longestSide + _rect.longestSide + 20;
+      component.changeRect(Rect.fromLTWH(component.rect.left, 50, 30, 30));
+      // onStartAttack(Rect.fromLTWH(_rect.left, _rect.top, 30, 30));
+      // print(isMoveOnX);
+      // if (isMoveOnX) {
+      //   onStartAttack(Rect.fromLTWH(_rect.left, _rect.top, 30, 30));
+
+      //   // onStartAttack(Rect.fromLTRB(_rect.left, _rect.top, _rect.right, _rect.bottom));
+      // } else {
+      //   onStartAttack(Rect.fromLTRB(_rect.left, _rect.top, _rect.right, _rect.top));
+      // }
+      onStartAttack(Rect.fromLTWH(_rect.left, _rect.top, 30, 30));
+
+      // items.add(component);
+    }
     if (event.event == ActionEvent.MOVE) {
       _move = true;
       radAngle = event.radAngle;
@@ -110,24 +135,6 @@ class Player extends BaseComponent implements JoystickListener {
       }
     }
 
-    // boxItems.forEach((element) {
-    //   if (!isMoveOnX && !isMoveBoxY) {
-    //     return;
-    //   }
-    //   if (element.left < newPosition.right && element.right > newPosition.right) {
-    //     isMoveOnX = false;
-    //     isMoveBoxY = false;
-    //     if (element.top > newPosition.top) {
-    //       isMoveBoxY = true;
-    //       isMoveOnX = true;
-    //       // _rect = newPosition;
-    //     }
-    //   }
-    // });
-
-    // if (isMoveBoxY && isMoveOnX) {
-    //   _rect = newPosition;
-    // }
     _rect = newPosition;
   }
 

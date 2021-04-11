@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flame/components/joystick/joystick_action.dart';
 import 'package:flame/components/joystick/joystick_component.dart';
-import 'package:flame/components/joystick/joystick_directional.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/gestures.dart';
@@ -13,6 +12,7 @@ import '../../core/base/model/coordinate.dart';
 import '../component/backgorund/rock_box_background.dart';
 import '../component/backgorund/rock_box_random_backgorund.dart';
 import '../component/box/rock_box.dart';
+import '../component/box/rock_component.dart';
 import '../component/character/bomberman/bomberman.dart';
 import '../component/character/monster/monster_car.dart';
 import '../component/character/player/player.dart';
@@ -23,7 +23,7 @@ class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
   List<Bomberman> bombermans = [];
   Player player;
   double get characterHeight => screenSize.width * 0.1;
-
+  Rock normalRock;
   RockBox box;
   BackgroundLayer layer;
 
@@ -40,7 +40,9 @@ class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
       JoystickAction(
         actionId: 2,
         size: 50,
+
         color: const Color(0xFF00FF00),
+        // spritePressed: ,
         margin: const EdgeInsets.only(
           right: 50,
           bottom: 120,
@@ -59,7 +61,10 @@ class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
     Flame.util.initialDimensions().then((value) {
       screenSize = value;
       box = RockBox(this);
-      player = Player(screenSize);
+      normalRock = Rock(this);
+      player = Player(screenSize, normalRock, (rect) {
+        normalRock.changeRect(rect);
+      });
       // final bomberMan = Bomberman(this, Coordinate(screenSize.width - characterHeight * 3, characterHeight * 1.5));
       joystick.addObserver(player);
       final backgorundBox = BackgroundComponent(box);
@@ -71,6 +76,7 @@ class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
       );
 
       add(randomBox);
+      add(normalRock);
       add(backgorundBox);
       add(monsterCar);
       player.boxItems = randomBox.boxItems;
