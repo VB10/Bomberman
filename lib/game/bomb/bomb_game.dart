@@ -9,6 +9,7 @@ import 'package:flame/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/base/model/coordinate.dart';
+import '../../product/manager/player_fire.dart';
 import '../component/backgorund/rock_box_background.dart';
 import '../component/backgorund/rock_box_random_backgorund.dart';
 import '../component/box/rock_box.dart';
@@ -26,6 +27,8 @@ class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
   Rock normalRock;
   RockBox box;
   BackgroundLayer layer;
+
+  final playerGameManager = PlayerAttackManagers();
 
   double get randomWidthNumber => Random().nextDouble() * (screenSize.width - characterHeight);
   double get randomHeightNumber => Random().nextDouble() * (screenSize.width - characterHeight);
@@ -62,9 +65,10 @@ class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
       screenSize = value;
       box = RockBox(this);
       normalRock = Rock(this);
+
       player = Player(screenSize, normalRock, (rect) {
-        normalRock.changeRect(rect);
-      });
+        // normalRock.changeRect(rect);
+      }, playerGameManager);
       // final bomberMan = Bomberman(this, Coordinate(screenSize.width - characterHeight * 3, characterHeight * 1.5));
       joystick.addObserver(player);
       final backgorundBox = BackgroundComponent(box);
@@ -74,12 +78,15 @@ class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
         monsterSize: Size(characterHeight * 2, characterHeight * 2),
         screenSize: screenSize,
       );
-
+      // conte
       add(randomBox);
       add(normalRock);
       add(backgorundBox);
       add(monsterCar);
       player.boxItems = randomBox.boxItems;
+
+      playerGameManager.attach(monsterCar.attackModel);
+      playerGameManager.attach(normalRock.attackModel);
       add(player);
       add(joystick);
     });

@@ -7,6 +7,9 @@ import 'package:flame/sprite.dart';
 
 import '../../../../core/asset/image/image_load_manager.dart';
 import '../../../../core/base/base_component.dart';
+import '../../../../product/manager/model/player_attack_model.dart';
+import '../../../../product/manager/model/player_attack_observer.dart';
+import '../../../../product/manager/player_fire.dart';
 import '../../../../product/model/box_model.dart';
 import '../../box/rock_component.dart';
 
@@ -23,16 +26,18 @@ class Player extends BaseComponent implements JoystickListener {
 
   Sprite backgroundSprite;
 
+  final attack = PlayerAttack('Player vb');
+
   final void Function(Rect rect) onStartAttack;
 
   Size screenSize;
 
   Rect _rect;
-
+  final PlayerAttackManagers managers;
   Rect get rect => _rect;
   List<Rect> boxItems = [];
 
-  Player(this.screenSize, this.component, this.onStartAttack) {
+  Player(this.screenSize, this.component, this.onStartAttack, this.managers) {
     _boxModelUtil = BoxModelUtil(screenSize);
     backgroundSprite = Sprite(ImageLoad.instance.humanCar);
   }
@@ -67,21 +72,8 @@ class Player extends BaseComponent implements JoystickListener {
   @override
   void joystickAction(JoystickActionEvent event) {
     if (event.id == 2 && event.event == ActionEvent.UP) {
-      print('ok');
-      final right = component.rect.longestSide + _rect.longestSide + 20;
-      component.changeRect(Rect.fromLTWH(component.rect.left, 50, 30, 30));
       // onStartAttack(Rect.fromLTWH(_rect.left, _rect.top, 30, 30));
-      // print(isMoveOnX);
-      // if (isMoveOnX) {
-      //   onStartAttack(Rect.fromLTWH(_rect.left, _rect.top, 30, 30));
-
-      //   // onStartAttack(Rect.fromLTRB(_rect.left, _rect.top, _rect.right, _rect.bottom));
-      // } else {
-      //   onStartAttack(Rect.fromLTRB(_rect.left, _rect.top, _rect.right, _rect.top));
-      // }
-      onStartAttack(Rect.fromLTWH(_rect.left, _rect.top, 30, 30));
-
-      // items.add(component);
+      managers.model = PlayerAttackModel(Rect.fromLTWH(_rect.left, _rect.top, 30, 30), 10);
     }
     if (event.event == ActionEvent.MOVE) {
       _move = true;
