@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flame/components/component.dart';
 import 'package:flame/sprite.dart';
 
+import '../../../core/asset/image/image_load_manager.dart';
 import '../../../product/manager/model/player_attack_observer.dart';
 import '../../bomb/bomb_game.dart';
 
@@ -16,7 +17,9 @@ class Rock extends Component {
   Offset targetLocation;
 
   Rock(this.game) {
+    fireBackgroundSprite = Sprite(ImageLoad.instance.fire);
     setTargetLocation();
+
     attackModel = PlayerAttack(
       '$this',
       listen: (model) {
@@ -27,10 +30,13 @@ class Rock extends Component {
 
   double get boxSize => game.screenSize.width * 0.1;
 
+  List<double> values = [];
+  // int i = 0;
   @override
   void render(Canvas canvas) {
     if (rect == Rect.zero) return;
     fireBackgroundSprite.renderRect(canvas, rect);
+    // canvas.drawRect(rect, redRock);
   }
 
   void setTargetLocation() {

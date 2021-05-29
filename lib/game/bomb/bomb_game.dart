@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:flame/components/joystick/joystick_action.dart';
 import 'package:flame/components/joystick/joystick_component.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -16,6 +15,7 @@ import '../component/box/rock_box.dart';
 import '../component/box/rock_component.dart';
 import '../component/character/monster/monster_car.dart';
 import '../component/character/player/player.dart';
+import '../joystick/joystick_manager.dart';
 
 class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
   Size screenSize;
@@ -28,44 +28,14 @@ class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
 
   double get randomWidthNumber => Random().nextDouble() * (screenSize.width - characterHeight);
   double get randomHeightNumber => Random().nextDouble() * (screenSize.width - characterHeight);
-  final joystick = JoystickComponent(
-    actions: [
-      JoystickAction(
-        actionId: 1,
-        size: 50,
-        margin: const EdgeInsets.all(50),
-        color: const Color(0xFF0000FF),
-      ),
-      JoystickAction(
-        actionId: 2,
-        size: 50,
-
-        color: const Color(0xFF00FF00),
-        // spritePressed: ,
-        margin: const EdgeInsets.only(
-          right: 50,
-          bottom: 120,
-        ),
-      ),
-      JoystickAction(
-        actionId: 3,
-        size: 50,
-        margin: const EdgeInsets.only(bottom: 50, right: 120),
-        enableDirection: true,
-      ),
-    ],
-  );
+  final joystick = JoystickComponent(actions: JoystickManager().actions);
 
   BombGame() {
     Flame.util.initialDimensions().then((value) {
       screenSize = value;
       box = RockBox(this);
       normalRock = Rock(this);
-
-      player = Player(screenSize, normalRock, (rect) {
-        // normalRock.changeRect(rect);
-      }, playerGameManager);
-      // final bomberMan = Bomberman(this, Coordinate(screenSize.width - characterHeight * 3, characterHeight * 1.5));
+      player = Player(screenSize, normalRock, (rect) {}, playerGameManager);
       joystick.addObserver(player);
       final backgorundBox = BackgroundComponent(box);
       final randomBox = RockBoxRandomComponent(screenSize);
