@@ -14,19 +14,15 @@ import '../component/backgorund/rock_box_background.dart';
 import '../component/backgorund/rock_box_random_backgorund.dart';
 import '../component/box/rock_box.dart';
 import '../component/box/rock_component.dart';
-import '../component/character/bomberman/bomberman.dart';
 import '../component/character/monster/monster_car.dart';
 import '../component/character/player/player.dart';
-import '../component/layer/backgorund_layer_wall.dart';
 
 class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
   Size screenSize;
-  List<Bomberman> bombermans = [];
   Player player;
   double get characterHeight => screenSize.width * 0.1;
   Rock normalRock;
   RockBox box;
-  BackgroundLayer layer;
 
   final playerGameManager = PlayerAttackManagers();
 
@@ -100,18 +96,4 @@ class BombGame extends BaseGame with TapDetector, MultiTouchDragDetector {
 
   @override
   Color backgroundColor() => Colors.green[900];
-
-  @override
-  void onTapDown(TapDownDetails details) {
-    bombermans.forEach((element) {
-      element.onTapDown();
-    });
-  }
-
-  @override
-  void onTapUp(TapUpDetails details) {
-    bombermans.forEach((element) {
-      element.onTapUp();
-    });
-  }
 }

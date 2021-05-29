@@ -16,7 +16,7 @@ class BlueWeapon extends BaseComponent {
   ) {
     xPosition = coordinate.x;
     bombermanPaint = Paint();
-    bombermanPaint.color = Colors.red;
+    bombermanPaint.color = Colors.black;
   }
 
   double get boxSize => game.screenSize.width * 0.12;

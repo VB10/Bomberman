@@ -4,10 +4,8 @@ import 'package:flutter/painting.dart';
 
 import '../../../core/asset/image/image_load_manager.dart';
 import '../../../product/model/box_model.dart';
-import '../layer/backgorund_layer_wall.dart';
 
 class RockBoxRandomComponent extends BoxModelUtil with Component {
-  BackgroundLayer layer;
   Sprite backgroundSprite;
   List<double> _pointValues = [];
   List<Rect> boxItems = [];

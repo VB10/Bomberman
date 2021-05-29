@@ -72,7 +72,6 @@ class Player extends BaseComponent implements JoystickListener {
   @override
   void joystickAction(JoystickActionEvent event) {
     if (event.id == 2 && event.event == ActionEvent.UP) {
-      // onStartAttack(Rect.fromLTWH(_rect.left, _rect.top, 30, 30));
       managers.model = PlayerAttackModel(Rect.fromLTWH(_rect.left, _rect.top, 30, 30), 10);
     }
     if (event.event == ActionEvent.MOVE) {
