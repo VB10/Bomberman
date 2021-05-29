@@ -1,3 +1,4 @@
+import 'package:flame/flame.dart';
 import 'package:flame/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,8 +11,10 @@ Future<void> main() async {
   await ImageLoad.instance.loadImageAll();
 
   var flameUtil = Util();
+
   await flameUtil.fullScreen();
   await flameUtil.setOrientation(DeviceOrientation.portraitUp);
-  var bombGame = BombGame();
+  final size = await Flame.util.initialDimensions();
+  var bombGame = BombGame(size);
   runApp(bombGame.widget);
 }

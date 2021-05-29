@@ -8,32 +8,30 @@ import '../../../../core/base/model/coordinate.dart';
 import '../../../../core/extension/number/number_extension.dart';
 import '../../../../product/manager/model/player_attack_observer.dart';
 
+typedef MonsterDead = void Function(bool data);
+
 class MonsterCarPlayer extends BaseComponent {
   Sprite backgroundSprite;
   final Size screenSize;
   Rect bombermanRect;
 
   final Size monsterSize;
-
-  final int _positionYMaxiumum = 4;
+  final MonsterDead listen;
 
   Offset targetLocation;
-  int position = 0;
-  bool _isAttacked = false;
-  bool _isFirstPlay = true;
 
   PlayerAttack attackModel;
-  double speet = 2;
   void setTargetLocation() {
     targetLocation = Offset(coordinate.x, (15.0).randomToMax);
   }
 
-  MonsterCarPlayer({this.screenSize, Coordinate coordinate, this.monsterSize}) {
+  MonsterCarPlayer({this.screenSize, this.listen, Coordinate coordinate, this.monsterSize}) {
     attackModel = PlayerAttack(
       'monster',
       listen: (model) {
         if (model.isNestedRect(bombermanRect)) {
-          _changeAtackState();
+          listen(true);
+          bombermanRect = Rect.zero;
         }
         print(model);
       },
@@ -64,11 +62,5 @@ class MonsterCarPlayer extends BaseComponent {
       bombermanRect = bombermanRect.shift(toTarget);
       setTargetLocation();
     }
-  }
-}
-
-extension on MonsterCarPlayer {
-  void _changeAtackState() {
-    _isAttacked = true;
   }
 }

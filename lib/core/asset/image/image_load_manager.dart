@@ -14,6 +14,7 @@ class ImageLoad {
   String get gunShot => 'gunshot'.toPNG;
   String get agileFly => 'agile-fly-1'.toPNG;
   String get vb10 => 'vb10'.toPNG;
+  String get winner => 'winner'.toPNG;
 
   final String humanCar = 'car/humanCar'.toPNG;
   final String monsterCar = 'car/monsterCar'.toPNG;
