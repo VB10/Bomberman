@@ -1,24 +1,22 @@
 import 'dart:ui';
 
-import 'package:bomberman/core/base/base_component.dart';
-import 'package:bomberman/core/base/model/coordinate.dart';
-import 'package:bomberman/game/bomb/bomb_game.dart';
 import 'package:flutter/material.dart';
 
-class Bomberman extends BaseComponent {
+import '../../../../core/base/base_component.dart';
+import '../../../bomb/bomb_game.dart';
+
+class BlueWeapon extends BaseComponent {
   final BombGame game;
   Rect bombermanRect;
   Paint bombermanPaint;
   double xPosition = 0;
 
-  Bomberman(this.game, Coordinate coordinate) {
-    this.coordinate = coordinate;
-    bombermanRect = Rect.fromLTWH(coordinate.x, coordinate.y,
-        game.screenSize.width * 0.1, game.screenSize.width * 0.1);
-
+  BlueWeapon(
+    this.game,
+  ) {
     xPosition = coordinate.x;
     bombermanPaint = Paint();
-    bombermanPaint.color = Colors.red;
+    bombermanPaint.color = Colors.black;
   }
 
   double get boxSize => game.screenSize.width * 0.12;
@@ -42,7 +40,6 @@ class Bomberman extends BaseComponent {
 
   @override
   void update(double value) {
-    bombermanRect = Rect.fromLTWH(xPosition, coordinate.y,
-        game.screenSize.width * 0.1, game.screenSize.width * 0.1);
+    bombermanRect = Rect.fromLTWH(xPosition, coordinate.y, game.screenSize.width * 0.1, game.screenSize.width * 0.1);
   }
 }
