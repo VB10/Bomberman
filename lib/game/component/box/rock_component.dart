@@ -36,7 +36,6 @@ class Rock extends Component {
   void render(Canvas canvas) {
     if (rect == Rect.zero) return;
     fireBackgroundSprite.renderRect(canvas, rect);
-    // canvas.drawRect(rect, redRock);
   }
 
   void setTargetLocation() {

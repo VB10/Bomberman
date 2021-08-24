@@ -16,16 +16,11 @@ class RockBox extends Component {
 
   double get boxSize => game.screenSize.width * 0.1;
 
-  List<double> values = [];
-
   RockBox(this.game) {
     bombermanRect = Rect.fromLTWH(0, 0, boxSize, boxSize);
     bombermanPaint = Paint();
     bombermanPaint.color = Colors.black;
     backgroundSprite = Sprite(ImageLoad.instance.wallImage);
-
-    final headerColumnLength = game.screenSize.height / boxSize;
-    values = List.generate(headerColumnLength.toInt(), (index) => Random().nextInt(game.screenSize.height.toInt()).toDouble());
   }
   @override
   void render(Canvas canvas) {}

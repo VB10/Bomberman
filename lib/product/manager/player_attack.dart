@@ -3,14 +3,10 @@ import 'package:logger/logger.dart';
 
 class PlayerManager extends Observer<PlayerAttackNotification> {
   String id = '';
-  PlayerManager({
-    this.id,
-  });
+  PlayerManager({this.id});
   @override
   void update(PlayerAttackNotification notification) {
     print('$id');
-
-    // notification.
   }
 }
 
